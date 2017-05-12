@@ -1,0 +1,33 @@
+# EXPIRAR CACHE
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault "access plus 10 days"
+ExpiresByType text/css "access plus 1 week"
+ExpiresByType text/plain "access plus 1 week"
+ExpiresByType image/gif "access plus 1 month"
+ExpiresByType image/png "access plus 1 month"
+ExpiresByType image/jpeg "access plus 1 month"
+ExpiresByType image/x-icon "access plus 3 months"
+ExpiresByType application/x-javascript "access plus 1 month"
+ExpiresByType application/javascript "access plus 1 week"
+ExpiresByType text/javascript "access plus 1 week"
+ExpiresByType application/x-icon "access plus 3 months"
+</IfModule>
+# FIN EXPIRAR CACHE
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^idenframework.com/ [NC]
+RewriteRule ^(.*)$ http://www.idenframework.com/$1 [L,R=301]
+</IfModule>
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+
+RewriteRule ^(.+)$ index.php?videnframework=$1 [QSA,L]
+
+
+<FilesMatch "\.(php|htm|html|css|js)$">
+AddDefaultCharset UTF-8
+</FilesMatch>
