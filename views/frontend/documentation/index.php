@@ -15,7 +15,7 @@
             <div class="logo">
                 <img class="logo" src="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_images']; ?>logo.svg"/>
             </div>
-            <h1 class="text-green">Plataforma de desarrollo</h1>
+            <h1 class="text-blue">Documentación IdEn Framework</h1>
             <p class="lead text-white">Plataforma de <strong>Desarrollo</strong>, e <strong>Implementación</strong> para sitios web a medida,</p>
             <p class="lead text-white">modificado por la empresa <strong><a href="http://www.ideas-envision.com/framework/">Ideas-Envision</a></strong> Servicios Integrales,</p>
             <p class="lead text-white">Gracias por instalarlo!</p>
@@ -26,7 +26,30 @@
                     <li><a class="text-white" href="<?php echo BASE_VIEW_URL; ?>contact">Contacto</a></li>
                 </ul>
             </div>
+            <a href="#content-documentation"><i class="glyphicon glyphicon-chevron-down icon-down"></i></a>
          </div>
+        </section>
+
+        <section id="content-documentation" class="section-background-1">
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Sección que contendra toda la información sobre la documentación del Framework IdEn</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="jumbotron">
+                          <h1>Hello, world!</h1>
+                          <p>...</p>
+                          <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="well well-lg">aqui estamos!</div>
+                    </div>
+                </div>              
+            </div>
         </section>
 
         <footer>
@@ -34,6 +57,6 @@
         </footer>
         
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_plugins']; ?>jquery-3.2.1.min.js"></script>
-        <script src="<?Php echo $vParamsViewBootstrap['root_bootstrap_js']; ?>bootstrap.min.js"></script>        
+        <script src="<?Php echo $vParamsViewBootstrap['root_bootstrap_js']; ?>bootstrap.min.js"></script>
     </body>
 </html>

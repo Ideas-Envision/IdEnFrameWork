@@ -9,13 +9,13 @@ class IdEnInitialize
 				$noNeedController = $vRequest->getController();
                 
 				$vController = $vRequest->getController().'Controller';
-				$vRoutController = ROOT_APPLICATION.'controllers'.DIR_SEPARATOR.$vController.'.php';
+				$vRouteController = ROOT_APPLICATION.'controllers'.DIR_SEPARATOR.$vController.'.php';
 				$vMethod = $vRequest->getMethod();
 				$vArgs = $vRequest->getArgs();
 							
-				if(is_readable($vRoutController))
+				if(is_readable($vRouteController))
 					{
-						require_once $vRoutController;
+						require_once $vRouteController;
 						$vController = new $vController;
 						if(is_callable(array($vController, $vMethod)))
 							{
@@ -37,7 +37,9 @@ class IdEnInitialize
 					}
 				else
 					{		
-						header('Location: '.BASE_VIEW_URL.'account/exists/'.$noNeedController);
+						//header('Location: '.BASE_VIEW_URL.'account/exists/'.$noNeedController);
+                        //header('Location: '.BASE_VIEW_URL.'error/'.$noNeedController);
+                        header('Location: '.BASE_VIEW_URL.'error/controller');
 					}
 			}
 	}

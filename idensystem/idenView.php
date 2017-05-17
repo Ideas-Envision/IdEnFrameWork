@@ -17,15 +17,20 @@ class IdEnView  extends IdEnController
 		public function visualizar($vNameView, $vItem = FALSE)
 			{
 
+				$vParamsViewBootstrap = array(
+                                        'root_bootstrap_css'=>BASE_VIEW_URL.'views/layout/'.DEFAULT_VIEW_LAYOUT.'/bootstrap/css/',
+                                        'root_bootstrap_fonts'=>BASE_VIEW_URL.'views/layout/'.DEFAULT_VIEW_LAYOUT.'/bootstrap/fonts/',
+                                        'root_bootstrap_js'=>BASE_VIEW_URL.'views/layout/'.DEFAULT_VIEW_LAYOUT.'/bootstrap/js/'
+									 );
+                
 				$vParamsViewFrontEndLayout = array(
                                         'root_frontend_menu_array'=>$arrayTotalMenu,
-										'root_frontend_bootstrap'=>BASE_VIEW_URL.'views/layout/'.DEFAULT_VIEW_LAYOUT.'/frontend/bootstrap337/',
                                         'root_frontend_css'=>BASE_VIEW_URL.'views/layout/'.DEFAULT_VIEW_LAYOUT.'/frontend/css/',
                                         'root_frontend_fonts'=>BASE_VIEW_URL.'views/layout/'.DEFAULT_VIEW_LAYOUT.'/frontend/fonts/',
 										'root_frontend_img'=>BASE_VIEW_URL.'views/layout/'.DEFAULT_VIEW_LAYOUT.'/frontend/images-web/',
                                         'root_frontend_js'=>BASE_VIEW_URL.'views/layout/'.DEFAULT_VIEW_LAYOUT.'/frontend/js/',
 										'root_frontend_plugins'=>BASE_VIEW_URL.'views/layout/'.DEFAULT_VIEW_LAYOUT.'/frontend/plugins/'
-									 );
+									 );                
 
 				$vParamsViewBackEndLayout = array(
                                         'root_backend_menu_array'=>$arrayTotalMenu,
@@ -41,33 +46,41 @@ class IdEnView  extends IdEnController
 										'root_backend_pages_scripts'=>BASE_VIEW_URL.'views/layout/'.DEFAULT_VIEW_LAYOUT.'/backend/pages/scripts/'
 									 );				
 									 
-				$vRoutViewFrontEnd = ROOT_APPLICATION.'views'.DIR_SEPARATOR.'frontend'.DIR_SEPARATOR.$this->vController.DIR_SEPARATOR.$vNameView.'.php';
+				$vRouteViewFrontEnd = ROOT_APPLICATION.'views'.DIR_SEPARATOR.'frontend'.DIR_SEPARATOR.$this->vController.DIR_SEPARATOR.$vNameView.'.php';
 
-				$vRoutViewBackEnd = ROOT_APPLICATION.'views'.DIR_SEPARATOR.'backend'.DIR_SEPARATOR.$this->vController.DIR_SEPARATOR.$vNameView.'.php';
+				$vRouteViewBackEnd = ROOT_APPLICATION.'views'.DIR_SEPARATOR.'backend'.DIR_SEPARATOR.$this->vController.DIR_SEPARATOR.$vNameView.'.php';
             
-                $vRoutViewAccess = ROOT_APPLICATION.'views'.DIR_SEPARATOR.'access'.DIR_SEPARATOR.$this->vController.DIR_SEPARATOR.$vNameView.'.php';
+                $vRouteViewAccess = ROOT_APPLICATION.'views'.DIR_SEPARATOR.'access'.DIR_SEPARATOR.$this->vController.DIR_SEPARATOR.$vNameView.'.php';
+                
+                $vRouteViewError = ROOT_APPLICATION.'views'.DIR_SEPARATOR.'error'.DIR_SEPARATOR.$this->vController.DIR_SEPARATOR.$vNameView.'.php';
 				
-				if(is_readable($vRoutViewFrontEnd))
+				if(is_readable($vRouteViewFrontEnd))
 					{
 						include_once ROOT_APPLICATION.'views'.DIR_SEPARATOR.'layout'.DIR_SEPARATOR.'header.frontend.php';
-						include_once $vRoutViewFrontEnd;
+						include_once $vRouteViewFrontEnd;
                         include_once ROOT_APPLICATION.'views'.DIR_SEPARATOR.'layout'.DIR_SEPARATOR.'footer.frontend.php';
 					}
-				elseif(is_readable($vRoutViewBackEnd))
+				elseif(is_readable($vRouteViewBackEnd))
 					{
 						include_once ROOT_APPLICATION.'views'.DIR_SEPARATOR.'layout'.DIR_SEPARATOR.'header.backend.php';
-						include_once $vRoutViewBackEnd;
+						include_once $vRouteViewBackEnd;
 						include_once ROOT_APPLICATION.'views'.DIR_SEPARATOR.'layout'.DIR_SEPARATOR.'footer.backend.php';
 					}
-				elseif(is_readable($vRoutViewAccess))
+				elseif(is_readable($vRouteViewAccess))
 					{
 						include_once ROOT_APPLICATION.'views'.DIR_SEPARATOR.'layout'.DIR_SEPARATOR.'header.access.php';
-						include_once $vRoutViewAccess;
+						include_once $vRouteViewAccess;
 						include_once ROOT_APPLICATION.'views'.DIR_SEPARATOR.'layout'.DIR_SEPARATOR.'footer.access.php';
-					}            
+					}
+				elseif(is_readable($vRouteViewError))
+					{
+						include_once ROOT_APPLICATION.'views'.DIR_SEPARATOR.'layout'.DIR_SEPARATOR.'header.error.php';
+						include_once $vRouteViewError;
+						include_once ROOT_APPLICATION.'views'.DIR_SEPARATOR.'layout'.DIR_SEPARATOR.'footer.error.php';
+					}                
 				else
 					{
-						header('Location: '.BASE_VIEW_URL.'error/view/1006');
+                        header('Location: '.BASE_VIEW_URL.'error/view');
 						exit;
 					}								
 			}			
