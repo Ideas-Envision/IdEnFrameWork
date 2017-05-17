@@ -7,15 +7,23 @@
 <style type="text/css">
 body {
   /*background: linear-gradient(90deg, white, gray);*/
-  background-color: #eee;
+  background-color: #282828;
 }
 
 body, h1, p {
-  font-family: "Helvetica Neue", "Segoe UI", Segoe, Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: normal;
-  margin: 0;
-  padding: 0;
-  text-align: center;
+  /*font-family: "Helvetica Neue", "Segoe UI", Segoe, Helvetica, Arial, "Lucida Grande", sans-serif;*/
+    font-family: "Century Gothic","Apple Gothic",AppleGothic,"URW Gothic L","Avant Garde",Futura,sans-serif;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #FFF;
+}
+    
+.logo img {
+    fill: aqua;
+    width: 20%;
+    text-align: center;
 }
 
 .container {
@@ -49,7 +57,7 @@ p {
 }
 
 a {
-  color: #000;
+  color: #FFF;
   text-decoration: none;
 }
 </style>
@@ -57,19 +65,12 @@ a {
 
 <body>
 <div class="container text-center" id="error">
-
-  <svg height="100" width="100">
-    <circle cx="50" cy="50" r="31" stroke="#679b08" stroke-width="9.5" fill="none" />
-    <circle cx="50" cy="50" r="6" stroke="#679b08" stroke-width="1" fill="#679b08" />
-    <line x1="50" y1="50" x2="35" y2="50" style="stroke:#679b08;stroke-width:6" />
-    <line x1="65" y1="35" x2="50" y2="50" style="stroke:#679b08;stroke-width:6" />
-    <path d="M59 65 L83 65 L75 87 Z" fill="#679b08" />
-    <rect width="20" height="9" x="70" y="56" style="fill:#eee;stroke-width:0;" />
-  </svg>
+    
   <div class="row">
     <div class="col-md-12">
-      <div class="main-icon text-success"><span class="uxicon uxicon-clock-refresh"></span></div>
-        <h1>IdEn Framework v3.11</h1>
+        <div class="logo">
+            <img class="logo" src="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_images']; ?>logo.svg"/>
+        </div>
         <p class="lead">Plataforma de <strong>Desarrollo</strong>, e <strong>Implementación</strong> para sitios web a medida,</p>
         <p class="lead">modificado por la empresa <strong><a href="http://www.ideas-envision.com/framework/">Ideas-Envision</a></strong> Servicios Integrales,</p>
         <p class="lead">Gracias por instalarlo!</p>
