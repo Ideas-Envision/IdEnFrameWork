@@ -1,0 +1,3 @@
+Show databases;
+
+Create database db_idenframework;
