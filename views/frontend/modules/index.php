@@ -12,19 +12,13 @@
     <body>
         <section class="section-background-title">  
           <div class="content">
-            <div class="logo">
+            <!--<div class="logo">
                 <img class="logo" src="<?Php echo $vParamsViewBackEndLayout['root_backend_layouts_images']; ?>logo.svg"/>
-            </div>
-            <h1 class="text-green">Plataforma de desarrollo</h1>
-            <p class="lead text-white">Plataforma de <strong>Desarrollo</strong>, e <strong>Implementación</strong> para sitios web a medida,</p>
-            <p class="lead text-white">modificado por la empresa <strong><a href="http://www.ideas-envision.com/framework/">Ideas-Envision</a></strong> Servicios Integrales,</p>
-            <p class="lead text-white">Gracias por instalarlo!</p>
+            </div>-->
+            <h1 class="text-green">Listado de Módulos Desarrollados</h1>
             <div id="nav_iden_menu">
                 <ul>
-                    <li><a class="text-white" href="<?php echo BASE_VIEW_URL; ?>">Inicio</a></li>
-                    <li><a class="text-white" href="<?php echo BASE_VIEW_URL; ?>documentation">Documentación</a></li>
-                    <li><a class="text-white" href="<?php echo BASE_VIEW_URL; ?>modules">Módulos</a></li>
-                    <li><a class="text-white" href="<?php echo BASE_VIEW_URL; ?>contact">Contacto</a></li>
+                    <li><a class="text-white" href="<?php echo BASE_VIEW_URL; ?>login">Formulario de Ingreso (Login)</a></li>
                 </ul>
             </div>
          </div>
