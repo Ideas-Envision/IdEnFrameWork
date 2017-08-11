@@ -18,7 +18,7 @@
             <h1 class="text-green">Listado de Módulos Desarrollados</h1>
             <div id="nav_iden_menu">
                 <ul>
-                    <li><a class="text-white" href="<?php echo BASE_VIEW_URL; ?>login">Formulario de Ingreso (Login)</a></li>
+                    <li><a class="text-white" href="<?php echo BASE_VIEW_URL; ?>access">Control de Accesos</a></li>
                 </ul>
             </div>
          </div>
@@ -29,6 +29,6 @@
         </footer>
         
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_plugins']; ?>jquery-3.2.1.min.js"></script>
-        <script src="<?Php echo $vParamsViewBootstrap['root_bootstrap_js']; ?>bootstrap.min.js"></script>        
+        <script src="<?Php echo $vParamsViewBootstrap['root_bootstrap_js']; ?>bootstrap.min.js"></script>
     </body>
 </html>

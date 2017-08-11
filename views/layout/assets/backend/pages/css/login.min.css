@@ -36,6 +36,26 @@ img.avatar {
     border-radius: 50%;
 }
 
+#nav_iden_login ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#nav_iden_login ul li {
+    display: inline;
+    font-size: 14px;
+    padding: 0 10px 0 10px;
+    border-right: 1px solid #000;
+}
+    
+#nav_iden_login li:last-child {
+    display: inline;
+    font-size: 14px;
+    padding: 0 10px 0 10px;
+    border: 0;
+}
+
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
     .cancelbtn {

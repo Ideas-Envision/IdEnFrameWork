@@ -19,21 +19,31 @@
             <div class="row">
                 <div class="col-sm-12 col-md-4 col-lg-4 col-md-push-4 col-lg-push-4">
                     <h1 class="text-green text-center">Módulo de Ingreso</h1>
-                    <p class="lead text-white text-center">Formulario de <strong>Acceso</strong>, la <strong>documentación</strong> para el módulo de acceso se encuentra en la parte inferior.</p>
-                    <form>
+                    <p class="lead text-white text-center">Formulario de <strong>Ingreso</strong>, la <strong>documentación</strong> para el módulo de acceso se encuentra en la parte inferior.</p>
+                    <form id="access-form-login">
                         <div class="form-group  text-center">
                             <img src="<?Php echo $vParamsViewBackEndLayout['root_backend_pages_images']; ?>img-avatar-login.png" alt="Avatar" class="avatar">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Usuario/Correo Electrónico</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                            <input type="email" class="form-control" name="vEmail" id="vEmail" placeholder="Correo Electrónico">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Contraseña</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <input type="password" class="form-control" name="vPassword" placeholder="Contraseña">
                         </div>
                         <button type="submit" class="btn login-button">Ingresar</button>
-                    </form>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+                                <div id="nav_iden_login">
+                                    <ul>
+                                        <li><a class="text-gray" href="<?php echo BASE_VIEW_URL; ?>access/register">Registrar</a></li>
+                                        <li><a class="text-gray" href="<?php echo BASE_VIEW_URL; ?>">¿olvidaste tu contraseña?</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </form>                    
                 </div>
             </div>
             <div class="clearfix visible-xs-block"></div>
@@ -57,6 +67,8 @@
         </footer>
         
         <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_global_plugins']; ?>jquery-3.2.1.min.js"></script>
-        <script src="<?Php echo $vParamsViewBootstrap['root_bootstrap_js']; ?>bootstrap.min.js"></script>        
+        <script src="<?Php echo $vParamsViewBootstrap['root_bootstrap_js']; ?>bootstrap.min.js"></script>
+        
+        <script src="<?Php echo $vParamsViewBackEndLayout['root_backend_pages_scripts']; ?>access.min.js"></script>
     </body>
 </html>
