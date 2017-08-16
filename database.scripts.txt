@@ -1,3 +1,52 @@
+/* VERIFICAR QUE NO EXISTA LA BASE DE DATOS */
 Show databases;
 
-Create database db_idenframework;
+/* CREACIÓN DE LA BASE DE DATOS */
+create database db_idenframework;
+
+/* CREACIÓN DE TABLAS BASE DE DATOS - MÓDULO DE ACCESOS*/
+CREATE TABLE `tb_idenframework_users` (
+  `n_coduser` int(11) NOT NULL auto_increment,
+  `c_username` varchar(50) collate utf8_spanish_ci NOT NULL,
+  `c_pass1` text collate utf8_spanish_ci,
+  `c_pass2` text collate utf8_spanish_ci,
+  `c_email` varchar(100) collate utf8_spanish_ci NOT NULL,
+  `c_userrole` text collate utf8_spanish_ci,
+  `n_activationcode` bigint(255) unsigned NOT NULL,
+  `n_active` int(11) default NULL,
+  `c_usercreate` varchar(50) collate utf8_spanish_ci NOT NULL,
+  `d_datecreate` datetime default NULL,
+  `c_usermod` varchar(50) collate utf8_spanish_ci NOT NULL,
+  `d_datemod` datetime default NULL,
+  PRIMARY KEY  (`n_coduser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+CREATE TABLE `tb_idenframework_usernames` (
+  `n_codusername` int(11) NOT NULL auto_increment,
+  `n_coduser` int(11) NOT NULL,
+  `c_names` varchar(50) collate utf8_spanish_ci NOT NULL,
+  `c_lastnames` varchar(50) collate utf8_spanish_ci NOT NULL,
+  `c_othername` varchar(100) collate utf8_spanish_ci NOT NULL,
+  `d_birthdate` date default NULL,
+  `c_country` text collate utf8_spanish_ci,
+  `c_city` text collate utf8_spanish_ci,
+  `n_active` int(11) default NULL,
+  `c_usercreate` varchar(50) collate utf8_spanish_ci NOT NULL,
+  `d_datecreate` datetime default NULL,
+  `c_usermod` varchar(50) collate utf8_spanish_ci NOT NULL,
+  `d_datemod` datetime default NULL,
+  PRIMARY KEY  (`n_codusername`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+CREATE TABLE `tb_idenframework_profiles` (
+  `n_codprofile` int(11) NOT NULL auto_increment,
+  `n_coduser` int(11) NOT NULL,
+  `c_profilename` text collate utf8_spanish_ci,
+  `n_profiletype` int(11) default NULL,
+  `n_active` int(11) default NULL,
+  `c_usercreate` varchar(50) collate utf8_spanish_ci NOT NULL,
+  `d_datecreate` datetime default NULL,
+  `c_usermod` varchar(50) collate utf8_spanish_ci NOT NULL,
+  `d_datemod` datetime default NULL,
+  PRIMARY KEY  (`n_codprofile`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
