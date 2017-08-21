@@ -1,3 +1,6 @@
+/* VERIFICAR QUE EN EL httpd.conf el módulo de rewrite_module este habilitado o descomentado*/
+LoadModule rewrite_module modules/mod_rewrite.so
+
 /* VERIFICAR QUE NO EXISTA LA BASE DE DATOS */
 Show databases;
 
