@@ -57,6 +57,31 @@ abstract class IdEnController
 						exit;						
 					}
 			}
+    
+        /* BEGIN VALIDADORES EN FUNCIONES GLOBALES - PÚBLICAS */
+        public function stringLength($vString){
+            
+                $vNumCharacters = 0;
+                $vNumCharacters = strlen($vString);
+
+                return $vNumCharacters;
+            
+            }
+    
+        public function userNameValid($vString){
+                
+                if(ereg('^[a-zA-Z0-9]{3,20}$', $vString)){
+                    //echo "El nombre de usuario $nombre_usuario es correcto<br>";
+                    return true;
+                } else {
+                    //echo "El nombre de usuario $nombre_usuario no es válido<br>";
+                    return false;
+                } 
+            
+            }    
+    
+        /* END VALIDADORES EN FUNCIONES GLOBALES - PÚBLICAS */
+    
 						
 	}
 
