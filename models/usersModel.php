@@ -7,11 +7,59 @@ class usersModel extends IdEnModel
 			}
 
         /* BEGIN SELECT STATEMENT QUERY  */
+		public function getUserNameExists($vUserName)
+			{
+                $vUserName = (string) $vUserName;
+            
+				$vResultUserExists = $this->vDataBase->query("SELECT
+                                                                COUNT(*)
+                                                            FROM tb_idenframework_users
+                                                            WHERE tb_idenframework_users.c_username = '$vUserName';");
+				return $vResultUserExists->fetchColumn();
+				$vResultUserExists->close();
+			}
+    
+		public function getUserEmailExists($vUserEmail)
+			{
+                $vUserEmail = (string) $vUserEmail;
+            
+				$vResultUserEmailExists = $this->vDataBase->query("SELECT
+                                                                COUNT(*)
+                                                            FROM tb_idenframework_users
+                                                                WHERE tb_idenframework_users.c_email = '$vUserEmail';");
+				return $vResultUserEmailExists->fetchColumn();
+				$vResultUserEmailExists->close();
+			}    
+    
+		public function getUserName($vUserName)
+			{
+                $vUserName = (string) $vUserName;
+            
+				$vResultUserName = $this->vDataBase->query("SELECT
+                                                                tb_idenframework_users.c_username
+                                                            FROM tb_idenframework_users
+                                                                WHERE tb_idenframework_users.n_coduser = $vUserCode;");
+				return $vResultUserName->fetchAll();
+				$vResultUserName->close();
+			}    
+    
+		public function getUserEmail($vUserName)
+			{
+                $vUserName = (string) $vUserName;
+            
+				$vResultUserEmail = $this->vDataBase->query("SELECT
+                                                                tb_idenframework_users.c_email
+                                                            FROM tb_idenframework_users
+                                                                WHERE tb_idenframework_users.n_coduser = $vUserCode;");
+				return $vResultUserEmail->fetchAll();
+				$vResultUserEmail->close();
+			}    
+    
 		public function getUser($vUserCode)
 			{
                 $vUserCode = (int) $vUserCode;
             
-				$vUser = $this->vDataBase->query("SELECT
+				$vResult = $this->vDataBase->query("SELECT
                                                         tb_idenframework_users.n_coduser,
                                                         tb_idenframework_users.c_username,
                                                         tb_idenframework_users.c_pass1,
@@ -25,15 +73,15 @@ class usersModel extends IdEnModel
                                                         tb_idenframework_users.c_usermod,
                                                         tb_idenframework_users.d_datemod
                                                     FROM tb_idenframework_users
-                                                        tb_idenframework_users.n_coduser = $vUserCode;");
-				return $vUser->fetchAll();
-				$vUser->close();
+                                                        WHERE tb_idenframework_users.n_coduser = $vUserCode;");
+				return $vResult->fetchAll();
+				$vResult->close();
 			}    
 
     
 		public function getUsers()
 			{
-				$vUsers = $this->vDataBase->query("SELECT
+				$vResult = $this->vDataBase->query("SELECT
                                                         tb_idenframework_users.n_coduser,
                                                         tb_idenframework_users.c_username,
                                                         tb_idenframework_users.c_pass1,
@@ -47,8 +95,8 @@ class usersModel extends IdEnModel
                                                         tb_idenframework_users.c_usermod,
                                                         tb_idenframework_users.d_datemod
                                                     FROM tb_idenframework_users;");
-				return $vUsers->fetchAll();
-				$vUsers->close();
+				return $vResult->fetchAll();
+				$vResult->close();
 			}
     
 
@@ -56,7 +104,7 @@ class usersModel extends IdEnModel
 			{
                 $vUserCode = (int) $vUserCode;
                 
-				$vUserInfo = $this->vDataBase->query("SELECT
+				$vResult = $this->vDataBase->query("SELECT
                                                         tb_idenframework_usernames.n_codusername,
                                                         tb_idenframework_usernames.n_coduser,
                                                         tb_idenframework_usernames.c_names,
@@ -70,15 +118,15 @@ class usersModel extends IdEnModel
                                                         tb_idenframework_usernames.d_datecreate,
                                                         tb_idenframework_usernames.c_usermod,
                                                         tb_idenframework_usernames.d_datemod
-                                                        FROM tb_idenframework_usernames
-                                                    WHERE tb_idenframework_usernames.n_coduser = $vUserCode;");
-				return $vUserInfo->fetchAll();
-				$vUserInfo->close();
+                                                    FROM tb_idenframework_usernames
+                                                        WHERE tb_idenframework_usernames.n_coduser = $vUserCode;");
+				return $vResult->fetchAll();
+				$vResult->close();
 			}
     
 		public function getUsersInfo()
 			{                
-				$vUsersInfo = $this->vDataBase->query("SELECT
+				$vResult = $this->vDataBase->query("SELECT
                                                         tb_idenframework_usernames.n_codusername,
                                                         tb_idenframework_usernames.n_coduser,
                                                         tb_idenframework_usernames.c_names,
@@ -92,26 +140,26 @@ class usersModel extends IdEnModel
                                                         tb_idenframework_usernames.d_datecreate,
                                                         tb_idenframework_usernames.c_usermod,
                                                         tb_idenframework_usernames.d_datemod
-                                                        FROM tb_idenframework_usernames;");
-				return $vUsersInfo->fetchAll();
-				$vUsersInfo->close();
+                                                    FROM tb_idenframework_usernames;");
+				return $vResult->fetchAll();
+				$vResult->close();
 			}    
         /* END SELECT STATEMENT QUERY  */
     
         /* BEGIN INSERT STATEMENT QUERY  */    
-		public function userRegister($vUsername, $vPassword1, $vPassword2, $vRole, $vActivationcode, $vActive){
+		public function userRegister($vUsername, $vPassword1, $vPassword2, $vEmail, $vRole, $vActivationcode, $vActive){
             
                 $vUsername = (string) $vUsername;
                 $vPassword1 = (string) IdEnHash::getHash('sha1',$vPassword1,DEFAULT_HASH_KEY);
                 $vPassword2 = (string) IdEnHash::getHash('sha1',$vPassword2,DEFAULT_HASH_KEY);
-                $vEmail = (string) $vUsername;
+                $vEmail = (string) $vEmail;
                 $vRole = (string) $vRole;
                 $vActivationcode = (int) $vActivationcode;
                 $vActive = (int) $vActive;
             
                 $vUserCreate = (string) IdEnSession::getSession('vSessionActiveUserName');
 
-				$this->vDataBase->prepare("INSERT INTO tb_idenframework_users(c_username, c_pass1, c_pass2, c_email, c_userrole, n_activationcode, n_active, c_usercreate, d_datecreate)
+				$vResultUserRegister = $this->vDataBase->prepare("INSERT INTO tb_idenframework_users(c_username, c_pass1, c_pass2, c_email, c_userrole, n_activationcode, n_active, c_usercreate, d_datecreate)
 																VALUES(:c_username, :c_pass1, :c_pass2, :c_email, :c_userrole, :n_activationcode, :n_active, :c_usercreate, NOW())")
 								->execute(
 										array(
@@ -124,6 +172,8 @@ class usersModel extends IdEnModel
                                             ':n_active' => $vActive,
                                             ':c_usercreate' => $vUserCreate,
 										));
+                return $vResultUserRegister = $this->vDataBase->lastInsertId();
+                $vResultUserRegister->close();
 			}
     
 		public function userInfoRegister($vUserCode, $vNames, $vLastNames, $vOthername, $vBirthDate, $vCountry, $vCity, $vActive){
@@ -132,14 +182,14 @@ class usersModel extends IdEnModel
                 $vNames = (string) $vNames;
                 $vLastNames = (string) $vLastNames;
                 $vOthername = (string) $vOthername;
-                $vBirthDate = (date) $vBirthDate;
+                $vBirthDate = $vBirthDate;
                 $vCountry = (string) $vCountry;
                 $vCity = (string) $vCity;
                 $vActive = (int) $vActive;
             
                 $vUserCreate = (string) IdEnSession::getSession('vSessionActiveUserName');
 
-				$this->vDataBase->prepare("INSERT INTO tb_idenframework_usernames(n_coduser, c_names, c_lastnames, c_othername, d_birthdate, c_country, c_city, n_active, c_usercreate, d_datecreate)
+				$vResultUserInfoRegister = $this->vDataBase->prepare("INSERT INTO tb_idenframework_usernames(n_coduser, c_names, c_lastnames, c_othername, d_birthdate, c_country, c_city, n_active, c_usercreate, d_datecreate)
 																VALUES(:n_coduser, :c_names, :c_lastnames, :c_othername, :d_birthdate, :c_country, :c_city, :n_active, :c_usercreate, NOW())")
 								->execute(
 										array(
@@ -153,6 +203,8 @@ class usersModel extends IdEnModel
                                             ':n_active' => $vActive,
                                             ':c_usercreate' => $vUserCreate,
 										));
+                return $vResultUserInfoRegister = $this->vDataBase->lastInsertId();
+                $vResultUserInfoRegister->close();            
 			}
         /* END INSERT STATEMENT QUERY  */
     }
