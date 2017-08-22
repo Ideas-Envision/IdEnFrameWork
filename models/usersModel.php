@@ -29,7 +29,19 @@ class usersModel extends IdEnModel
                                                                 WHERE tb_idenframework_users.c_email = '$vUserEmail';");
 				return $vResultUserEmailExists->fetchColumn();
 				$vResultUserEmailExists->close();
-			}    
+			}
+        
+		public function getUserAccountStatus($vUserEmail)
+			{
+                $vUserEmail = (string) $vUserEmail;
+            
+				$vResultUserAccountStatus = $this->vDataBase->query("SELECT
+                                                                        tb_idenframework_users.n_active
+                                                                    FROM tb_idenframework_users
+                                                                        WHERE tb_idenframework_users.c_email = '$vUserEmail';");
+				return $vResultUserAccountStatus->fetchColumn();
+				$vResultUserAccountStatus->close();
+			}        
     
 		public function getUserName($vUserName)
 			{
@@ -53,7 +65,33 @@ class usersModel extends IdEnModel
                                                                 WHERE tb_idenframework_users.n_coduser = $vUserCode;");
 				return $vResultUserEmail->fetchAll();
 				$vResultUserEmail->close();
-			}    
+			}
+        
+		public function getUserCodeFromEmailActivationCode($vActivationCode, $vEmail)
+			{
+                $vActivationCode = (int) $vActivationCode;
+                $vEmail = (string) $vEmail;
+            
+				$vResultUserCodeFromEmailActivationCode = $this->vDataBase->query("SELECT
+                                                                tb_idenframework_users.n_coduser
+                                                            FROM tb_idenframework_users
+                                                                WHERE tb_idenframework_users.n_activationcode = $vActivationCode
+                                                                    AND tb_idenframework_users.c_email = '$vEmail';");
+				return $vResultUserCodeFromEmailActivationCode->fetchColumn();
+				$vResultUserCodeFromEmailActivationCode->close();
+			}        
+        
+		public function getUserActivationCode($vEmail)
+			{
+                $vEmail = (string) $vEmail;
+            
+				$vResultUserActivationCode = $this->vDataBase->query("SELECT
+                                                                tb_idenframework_users.n_activationcode
+                                                            FROM tb_idenframework_users
+                                                                WHERE tb_idenframework_users.c_email = '$vEmail';");
+				return $vResultUserActivationCode->fetchColumn();
+				$vResultUserActivationCode->close();
+			}        
     
 		public function getUser($vUserCode)
 			{
@@ -146,7 +184,7 @@ class usersModel extends IdEnModel
 			}    
         /* END SELECT STATEMENT QUERY  */
     
-        /* BEGIN INSERT STATEMENT QUERY  */    
+        /* BEGIN INSERT STATEMENT QUERY  */
 		public function userRegister($vUsername, $vPassword1, $vPassword2, $vEmail, $vRole, $vActivationcode, $vActive){
             
                 $vUsername = (string) $vUsername;
@@ -157,7 +195,11 @@ class usersModel extends IdEnModel
                 $vActivationcode = (int) $vActivationcode;
                 $vActive = (int) $vActive;
             
-                $vUserCreate = (string) IdEnSession::getSession('vSessionActiveUserName');
+                if(IdEnSession::getSession('vSessionActiveUserName') == null){
+                    $vUserCreate = 'system['.date('d.m.Y h:m:s').']';
+                } else {
+                    $vUserCreate = (string) IdEnSession::getSession('vSessionActiveUserName');
+                }
 
 				$vResultUserRegister = $this->vDataBase->prepare("INSERT INTO tb_idenframework_users(c_username, c_pass1, c_pass2, c_email, c_userrole, n_activationcode, n_active, c_usercreate, d_datecreate)
 																VALUES(:c_username, :c_pass1, :c_pass2, :c_email, :c_userrole, :n_activationcode, :n_active, :c_usercreate, NOW())")
@@ -186,8 +228,12 @@ class usersModel extends IdEnModel
                 $vCountry = (string) $vCountry;
                 $vCity = (string) $vCity;
                 $vActive = (int) $vActive;
-            
-                $vUserCreate = (string) IdEnSession::getSession('vSessionActiveUserName');
+
+                if(IdEnSession::getSession('vSessionActiveUserName') == null){
+                    $vUserCreate = 'system['.date('d.m.Y h:m:s').']';
+                } else {
+                    $vUserCreate = (string) IdEnSession::getSession('vSessionActiveUserName');
+                }
 
 				$vResultUserInfoRegister = $this->vDataBase->prepare("INSERT INTO tb_idenframework_usernames(n_coduser, c_names, c_lastnames, c_othername, d_birthdate, c_country, c_city, n_active, c_usercreate, d_datecreate)
 																VALUES(:n_coduser, :c_names, :c_lastnames, :c_othername, :d_birthdate, :c_country, :c_city, :n_active, :c_usercreate, NOW())")
@@ -207,4 +253,60 @@ class usersModel extends IdEnModel
                 $vResultUserInfoRegister->close();            
 			}
         /* END INSERT STATEMENT QUERY  */
+        
+        /* BEGIN UPDATE STATEMENT QUERY  */
+		public function updateUserStatus($vUserCode, $vActive){
+                $vUserCode = (int) $vUserCode;
+                $vActive = (int) $vActive;
+
+                if(IdEnSession::getSession('vSessionActiveUserName') == null){
+                    $vUserMod = 'system['.date('d.m.Y h:m:s').']';
+                } else {
+                    $vUserMod = (string) IdEnSession::getSession('vSessionActiveUserName');
+                }
+
+                $vResultUpdateUserStatus = $this->vDataBase->prepare("UPDATE
+                                                tb_idenframework_users
+                                            SET tb_idenframework_users.n_active = :n_active,
+                                                tb_idenframework_users.c_usermod = :c_usermod,
+                                                tb_idenframework_users.d_datemod = NOW()
+                                            WHERE tb_idenframework_users.n_coduser = :n_coduser;")
+                                ->execute(
+                                            array(
+                                                    ':n_active'=>$vActive,
+                                                    ':c_usermod'=>$vUserMod,
+                                                    ':n_coduser'=>$vUserCode
+                                                 )
+                                         );
+                return $vResultUpdateUserStatus;
+                $vResultUpdateUserStatus->close();
+			}
+        
+		public function updateUserInfoStatus($vUserCode, $vActive){
+                $vUserCode = (int) $vUserCode;
+                $vActive = (int) $vActive;
+            
+                if(IdEnSession::getSession('vSessionActiveUserName') == null){
+                    $vUserMod = 'system['.date('d.m.Y h:m:s').']';
+                } else {
+                    $vUserMod = (string) IdEnSession::getSession('vSessionActiveUserName');
+                }
+
+                $vResultUpdateUserInfoStatus = $this->vDataBase->prepare("UPDATE
+                                                tb_idenframework_usernames
+                                            SET tb_idenframework_usernames.n_active = :n_active,
+                                                tb_idenframework_usernames.c_usermod = :c_usermod,
+                                                tb_idenframework_usernames.d_datemod = NOW()
+                                            WHERE tb_idenframework_usernames.n_coduser = :n_coduser;")
+                                ->execute(
+                                            array(
+                                                    ':n_active'=>$vActive,
+                                                    ':c_usermod'=>$vUserMod,
+                                                    ':n_coduser'=>$vUserCode
+                                                 )
+                                         );
+                return $vResultUpdateUserInfoStatus;
+                $vResultUpdateUserInfoStatus->close();
+			}        
+        /* END UPDATE STATEMENT QUERY  */
     }

@@ -19,6 +19,20 @@ class profileModel extends IdEnModel
 				$vResultProfileNameExists->close();
 			}
     
+		public function getProfileCodeFromUserCode($vUserCode, $vProfileType)
+			{
+                $vUserCode = (int) $vUserCode;
+                $vProfileType = (int) $vProfileType;
+            
+				$vResultProfileCodeFromUserCode = $this->vDataBase->query("SELECT
+                                                                            tb_idenframework_profiles.n_codprofile
+                                                                        FROM tb_idenframework_profiles
+                                                                            WHERE tb_idenframework_profiles.n_coduser = $vUserCode
+                                                                                AND tb_idenframework_profiles.n_profiletype = $vProfileType;");
+				return $vResultProfileCodeFromUserCode->fetchColumn();
+				$vResultProfileCodeFromUserCode->close();
+			}
+        
 		public function getProfileFromUserCode($vUserCode)
 			{
                 $vUserCode = (int) $vUserCode;
@@ -37,7 +51,7 @@ class profileModel extends IdEnModel
                                                                             WHERE tb_idenframework_profiles.n_coduser = $vUserCode;");
 				return $vResultProfileFromUserCode->fetchAll();
 				$vResultProfileFromUserCode->close();
-			}    
+			}        
     
 		public function getProfile($vProfileCode)
 			{
@@ -85,7 +99,11 @@ class profileModel extends IdEnModel
                 $vProfileType = (int) $vProfileType;
                 $vActive = (int) $vActive;
             
-                $vUserCreate = (string) IdEnSession::getSession('vSessionActiveUserName');
+                if(IdEnSession::getSession('vSessionActiveUserName') == null){
+                    $vUserCreate = 'system['.date('d.m.Y h:m:s').']';
+                } else {
+                    $vUserCreate = (string) IdEnSession::getSession('vSessionActiveUserName');
+                }
 
 				$vResultProfileRegister = $this->vDataBase->prepare("INSERT INTO tb_idenframework_profiles(n_coduser, c_profilename, n_profiletype, n_active, c_usercreate, d_datecreate)
 																VALUES(:n_coduser, :c_profilename, :n_profiletype, :n_active, :c_usercreate, NOW())")
@@ -101,4 +119,36 @@ class profileModel extends IdEnModel
                 $vResultProfileRegister->close();            
 			}
         /* END INSERT STATEMENT QUERY  */
+        
+        /* BEGIN UPDATE STATEMENT QUERY  */        
+		public function updateProfileStatus($vUserCode, $vProfileType, $vActive){
+                $vUserCode = (int) $vUserCode;
+                $vProfileType = (int) $vProfileType;
+                $vActive = (int) $vActive;
+
+                if(IdEnSession::getSession('vSessionActiveUserName') == null){
+                    $vUserMod = 'system['.date('d.m.Y h:m:s').']';
+                } else {
+                    $vUserMod = (string) IdEnSession::getSession('vSessionActiveUserName');
+                }
+
+                $vResultUpdateProfileStatus = $this->vDataBase->prepare("UPDATE
+                                                tb_idenframework_profiles
+                                            SET tb_idenframework_profiles.n_active = :n_active,
+                                                tb_idenframework_profiles.c_usermod = :c_usermod,
+                                                tb_idenframework_profiles.d_datemod = NOW()
+                                            WHERE tb_idenframework_profiles.n_coduser = :n_coduser
+                                                AND tb_idenframework_profiles.n_profiletype = :n_profiletype;")
+                                ->execute(
+                                            array(
+                                                    ':n_active'=>$vActive,
+                                                    ':c_usermod'=>$vUserMod,
+                                                    ':n_coduser'=>$vUserCode,
+                                                    ':n_profiletype'=>$vProfileType
+                                                 )
+                                         );
+                return $vResultUpdateProfileStatus;
+                $vResultUpdateProfileStatus->close();
+			}        
+        /* END UPDATE STATEMENT QUERY  */        
     }
