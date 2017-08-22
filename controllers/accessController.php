@@ -3,7 +3,14 @@
 class accessController extends IdEnController
 	{		
 		public function __construct(){
-                parent::__construct();        
+                parent::__construct();
+            
+				/* BEGIN VALIDATION TIME SESSION USER */
+				if(!IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE)){
+                    $this->redirect('login');
+					//IdEnSession::timeSession();
+				}
+                /* END VALIDATION TIME SESSION USER */            
             
                 $this->vAccessData = $this->LoadModel('access');
                 $this->vUsersData = $this->LoadModel('users');
@@ -12,18 +19,10 @@ class accessController extends IdEnController
 			
 		public function index(){
             
-                if(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE)){
-                        $this->redirect('dashboard');
-                    }
-            
                 $this->vView->visualizar('login');
 			}
     
 		public function LoginMethod(){
-            
-                if(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE)){
-                        $this->redirect('dashboard');
-                    }
             
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     $vEmail = (string) strtolower($_POST['vEmail']);
@@ -75,18 +74,11 @@ class accessController extends IdEnController
 			}        
     
 		public function register(){
-                if(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE)){
-                        $this->redirect('dashboard');
-                    }
             
                 $this->vView->visualizar('register');
 			}
     
 		public function RegisterMethod(){
-            
-                if(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE)){
-                        $this->redirect('dashboard');
-                    }
             
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     $vNames = (string) strtolower($_POST['vName']);
@@ -119,10 +111,6 @@ class accessController extends IdEnController
 			}
         
 		public function validateEmailAccount($vEmail, $vActivationCode, $vState){
-
-                if(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE)){
-                        $this->redirect('dashboard');
-                    }
             
                 $vStatusValidateEmailAccount = 0;
             
