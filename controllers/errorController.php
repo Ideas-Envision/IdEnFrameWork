@@ -16,6 +16,10 @@ class errorController extends IdEnController
 
 		public function view(){
             $this->vView->visualizar('view');
-			}        
+			} 
+    
+		public function sessionTimeExpired(){
+            $this->vView->visualizar('sessionTimeExpired');
+			}     
 	}
 ?>
