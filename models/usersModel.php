@@ -43,9 +43,9 @@ class usersModel extends IdEnModel
 				$vResultUserAccountStatus->close();
 			}        
     
-		public function getUserName($vUserName)
+		public function getUserName($vUserCode)
 			{
-                $vUserName = (string) $vUserName;
+                $vUserCode = (string) $vUserCode;
             
 				$vResultUserName = $this->vDataBase->query("SELECT
                                                                 tb_idenframework_users.c_username
@@ -161,6 +161,18 @@ class usersModel extends IdEnModel
 				return $vResult->fetchAll();
 				$vResult->close();
 			}
+    
+		public function getUserNamesComplete($vUserCode)
+			{
+                $vUserCode = (int) $vUserCode;
+                
+				$vResult = $this->vDataBase->query("SELECT
+                                                        CONCAT(tb_idenframework_usernames.c_names,' ',tb_idenframework_usernames.c_lastnames) AS c_namescomplete
+                                                    FROM tb_idenframework_usernames
+                                                        WHERE tb_idenframework_usernames.n_coduser = $vUserCode;");
+				return $vResult->fetchColumn();
+				$vResult->close();
+			}    
     
 		public function getUsersInfo()
 			{                
