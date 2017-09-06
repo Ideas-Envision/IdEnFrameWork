@@ -99,6 +99,9 @@ class accessController extends IdEnController
                 /* END VALIDATION TIME SESSION USER */
             
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    
+                    $vFormProceed = 0;
+                    
                     $vNames = (string) strtolower($_POST['vName']);
                     $vLastNames = (string) strtolower($_POST['vLastNames']);
                     $vEmail = (string) strtolower($_POST['vEmail']);
@@ -107,23 +110,64 @@ class accessController extends IdEnController
                     $vRole = (string) 'user';
                     $vActivationcode = rand(10000, 99999);
                     $vActive = (int) 2;
-                    
-                    if(($this->vUsersData->getUserNameExists($vEmail) == 0) && ($this->vUsersData->getUserEmailExists($vEmail) == 0)){
-                        $vUserCode = $this->vUsersData->userRegister($vEmail, $vPassword, $vRePassword, $vEmail, $vRole, $vActivationcode, $vActive);
-                        if($vUserCode != 0){
-                            $vOthername = (string) $vEmail;
-                            $UserNameCode = $this->vUsersData->userInfoRegister($vUserCode, $vNames, $vLastNames, $vOthername, $vBirthDate, $vCountry, $vCity, $vActive);
-                            if($UserNameCode != 0){
-                                $vProfileName = (string) strtolower(str_replace(' ', '', $vNames).str_replace(' ', '', $vLastNames));
-                                $vProfileType = 1;
-                                $ProfileCode = $this->vProfileData->profileRegister($vUserCode, $vProfileName, $vProfileType, $vActive);
-                                if(($vUserCode != 0) && ($UserNameCode != 0) && ($ProfileCode != 0)){
-                                    echo 'El usuario se registro correctamente!';
+                   
+                    if(strlen($vNames) <= 3){
+                        $vFormProceed = 1;
+                    } else if(strlen($vLastNames) <= 3){
+                        $vFormProceed = 2;
+                    } else if($this->isValidEmail($vEmail) == false){
+                        $vFormProceed = 3;
+                    } else if($this->vUsersData->getUserEmailExists($vEmail) != 0){
+                        $vFormProceed = 4;
+                    } else if($vPassword != $vRePassword){
+                        $vFormProceed = 5;
+                    }
+                       
+                    if($vFormProceed == 0){
+                        if(($this->vUsersData->getUserNameExists($vEmail) == 0) && ($this->vUsersData->getUserEmailExists($vEmail) == 0)){
+                            $vUserCode = $this->vUsersData->userRegister($vEmail, $vPassword, $vRePassword, $vEmail, $vRole, $vActivationcode, $vActive);
+                            if($vUserCode != 0){
+                                $vOthername = (string) $vEmail;
+                                $UserNameCode = $this->vUsersData->userInfoRegister($vUserCode, $vNames, $vLastNames, $vOthername, $vBirthDate, $vCountry, $vCity, $vActive);
+                                if($UserNameCode != 0){
+                                    $vProfileName = (string) strtolower(str_replace(' ', '', $vNames).str_replace(' ', '', $vLastNames));
+                                    $vProfileType = 1;
+                                    $ProfileCode = $this->vProfileData->profileRegister($vUserCode, $vProfileName, $vProfileType, $vActive);
+                                    if(($vUserCode != 0) && ($UserNameCode != 0) && ($ProfileCode != 0)){
+                                        //echo 'El usuario se registro correctamente!';
+                                        
+                                            $vTextMessage = '<p>Sigue el siguiente enlace para confirmar tu correo electrónico <a href="'.BASE_VIEW_URL.'access/validateEmailAccount/'.$vEmail.'/'.$vUserActivationCode.'/'.$vState.'">Validar mi cuenta!</a></p>.';
+
+                                            $this->getLibrary('class.phpmailer');
+                                            $this->vMail = new PHPMailer();								
+                                            //$this->vMail->IsSMTP();
+                                            $this->vMail->SMTPAuth = true;
+                                            $this->vMail->Host = '********';
+                                            $this->vMail->Username = '********';
+                                            $this->vMail->Password = '********';
+                                            $this->vMail->SMTPSecure = 'ssl';
+                                            $this->vMail->Port = 25;
+                                            $this->vMail->SetFrom('informaciones@ideas-envision.com', 'Ideas-Envision Servicios Integrales');
+                                            $this->vMail->AddAddress(strtolower(trim($vEmail)));
+                                            $this->vMail->Subject = 'Validación de cuenta Ideas-Envision';
+                                            $this->vMail->MsgHTML($vTextMessage);											
+
+                                            $exito = $this->vMail->Send();
+
+                                            if($exito){
+                                                $this->vMail->ClearAddresses();
+                                                //echo 'El usuario se registro correctamente; Las instrucciones de validación de cuenta se han enviado al correo a '.$vEmail.', gracias!';
+                                                echo $vFormProceed = 6
+                                            } else {
+                                                //echo 'No se ha enviado el correo a '.$email;
+                                                echo $vFormProceed = 7;
+                                            }
+                                    }
                                 }
                             }
                         }
                     } else {
-                        echo 0;
+                        echo $vFormProceed;
                     }
                 }
 			}

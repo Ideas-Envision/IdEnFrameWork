@@ -25,34 +25,34 @@
                             <img src="<?Php echo $vParamsViewBackEndLayout['root_backend_pages_images']; ?>img-avatar-login.png" alt="Avatar" class="avatar">
                         </div>                        
                         <div class="col-sm-12 col-md-6 col-lg-6">
-                            <label for="exampleInputEmail1">Nombres</label>
-                            <input type="text" class="form-control" name="vName" id="vName" placeholder="Nombres"> 
+                            <label>Nombres</label>
+                            <input type="text" class="form-control" name="vName" id="vName"> 
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Apellidos</label>
-                                <input type="text" class="form-control" name="vLastNames" id="vLastNames" placeholder="Apellidos">
+                                <label>Apellidos</label>
+                                <input type="text" class="form-control" name="vLastNames" id="vLastNames">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Usuario/Correo Electrónico</label>
-                                <input type="email" class="form-control" name="vEmail" id="vEmail" placeholder="Correo Electrónico">
+                                <label>Usuario/Correo Electrónico</label>
+                                <input type="text" class="form-control" name="vEmail" id="vEmail">
                             </div>
                         </div>                        
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Contraseña</label>
-                                <input type="password" class="form-control" name="vPassword" placeholder="Contraseña">
+                                <label>Contraseña</label>
+                                <input type="password" class="form-control" name="vPassword" id="vPassword">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Repetir Contraseña</label>
-                                <input type="password" class="form-control" name="vRePassword" placeholder="RepetirContraseña">
+                                <label>Repetir Contraseña</label>
+                                <input type="password" class="form-control" name="vRePassword" id="vRePassword">
                             </div>
                         </div>
-                        <button type="submit" class="btn login-button">Registrarme</button>
+                        <button type="submit" class="btn login-button" id="btnRegister">Registrarme</button>
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12 text-center">
                                 <div id="nav_iden_login">
