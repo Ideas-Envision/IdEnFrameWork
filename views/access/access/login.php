@@ -38,6 +38,7 @@
                                 <div id="nav_iden_login">
                                     <ul>
                                         <li><a class="text-gray" href="<?php echo BASE_VIEW_URL; ?>access/register">Registrar</a></li>
+                                        <li><a class="text-gray" href="<?php echo BASE_VIEW_URL; ?>access/sendEmailValidation">Validar Cuenta</a></li>
                                         <li><a class="text-gray" href="<?php echo BASE_VIEW_URL; ?>">¿olvidaste tu contraseña?</a></li>
                                     </ul>
                                 </div>

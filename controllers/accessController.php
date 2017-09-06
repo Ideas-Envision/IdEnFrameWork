@@ -171,6 +171,69 @@ class accessController extends IdEnController
                     }
                 }
 			}
+    
+		public function sendEmailValidation(){
+            
+				/* BEGIN VALIDATION TIME SESSION USER */
+				if(IdEnSession::getSession(DEFAULT_USER_AUTHENTICATE)){
+                        $this->redirect('dashboard');
+                }
+                /* END VALIDATION TIME SESSION USER */
+            
+            
+                $this->vView->visualizar('sendemailvalidation');
+			}    
+    
+		public function sendEmailForValidation()
+			{
+				if ($_SERVER['REQUEST_METHOD'] == 'POST')
+					{
+						$vEmail = (string) $_POST['vEmail'];
+                    
+                        if($this->vUsersData->getUserEmailExists($vEmail) == 1){
+                            $vState = $this->vUsersData->getUserState($vEmail);
+                            if($vState == 2){
+                                $vUserActivationCode = $this->vUsersData->getUserActivationCode($vEmail);
+                                
+                                $vTextMessage = '<p>Sigue el siguiente enlace para confirmar tu correo electrónico <a href="'.BASE_VIEW_URL.'access/validateEmailAccount/'.$vEmail.'/'.$vUserActivationCode.'/'.$vState.'">Validar mi cuenta!</a></p>.';
+
+                                $this->getLibrary('class.phpmailer');
+                                $this->vMail = new PHPMailer();								
+                                //$this->vMail->IsSMTP();
+                                $this->vMail->SMTPAuth = true;
+                                $this->vMail->Host = '**********';
+                                $this->vMail->Username = '***********';
+                                $this->vMail->Password = '***********';
+                                $this->vMail->SMTPSecure = 'ssl';
+                                $this->vMail->Port = 25;
+                                $this->vMail->SetFrom('informaciones@ideas-envision.com', 'Ideas-Envision Servicios Integrales');
+                                $this->vMail->AddAddress(strtolower(trim($vEmail)));
+                                $this->vMail->Subject = 'Validación de cuenta Ideas-Envision';
+                                $this->vMail->MsgHTML($vTextMessage);											
+
+                                $exito = $this->vMail->Send();
+
+                                if($exito)
+                                    {
+                                         $this->vMail->ClearAddresses();
+                                         echo 'Las instrucciones de validación de cuenta se han enviado al correo a '.$vEmail.', gracias!';
+                                         //echo 'true';
+                                    }
+                                else
+                                    {
+                                         //echo 'No se ha enviado el correo a '.$email;
+                                        echo 'false';
+                                    }                                
+                                
+                                
+                            } else {
+                                echo 'La cuenta ya esta activada!, por favor inicie sesión.';
+                            }
+                        } else {
+                           echo 'El correo electrónico '.$vEmail.', no esta registrado, por favor registre sus datos.'; 
+                        }
+					}
+			}    
         
 		public function validateEmailAccount($vEmail, $vActivationCode, $vState){
             
