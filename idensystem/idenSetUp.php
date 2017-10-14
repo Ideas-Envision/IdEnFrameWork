@@ -6,15 +6,15 @@ define('BASE_VIEW_URL','http://localhost/IdEnFrameWork/');/* RUTA POR DEFECTO DE
 define('DEFAULT_VIEW_LAYOUT','assets');/* VISTA POR DEFECTO DEL FRAMEWORK IDEN*/
 
 define('DEFAULT_SESSION_USER_TIME',30);
-define('DEFAULT_HASH_KEY','a6DKu3%Q}5]');//http://clavesegura.org/
+define('DEFAULT_HASH_KEY','********]');//http://clavesegura.org/
 
 define('DEFAULT_USER_REGISTER','user');
 define('DEFAULT_USER_AUTHENTICATE','vAuthenticatedIdEnUser');
 
 define('DEFAULT_DB_HOST','localhost');
-define('DEFAULT_DB_ROOT_USER','root');
-define('DEFAULT_DB_ROOT_PASS','vertrigo');
-define('DEFAULT_DB_NAME','db_idenframework');
+define('DEFAULT_DB_ROOT_USER','******');
+define('DEFAULT_DB_ROOT_PASS','*******');
+define('DEFAULT_DB_NAME','db_*******');
 
 define('DEFAULT_DB_CHARSET','utf8');
 ?>
